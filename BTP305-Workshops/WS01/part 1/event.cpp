@@ -45,7 +45,6 @@ namespace sdds
 
 	void Event::set(char* name)
 	{
-		// TODO: correct the if condition below; missing "if array not empty"
 		if (name) {
 			std::strcpy(this->m_desc, name);
 			this->m_time = ::g_sysClock;
