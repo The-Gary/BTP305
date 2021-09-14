@@ -1,3 +1,11 @@
+/*
+Name:		Yousef Majidinejad
+Student ID:	101306207
+Email:		ymajidinejad@myseneca.ca
+Section:	NAA
+Date:		September 12, 2021
+I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments
+*/
 // Workshop 1 - Linkage, Storage Duration, Namespaces, and OS Interface
 // Cornel - 2020/01/08
 // Chris - 2021/01/14
@@ -21,7 +29,7 @@ codes
 
 // TODO: write the prototype for the main function
 //         to accept command line arguments
-
+int main(int argc, char** argv)
 {
 	std::cout << "Command Line:\n";
 	std::cout << "--------------------------\n";
@@ -30,6 +38,10 @@ codes
 	//   2: second argument
 	//   3: third argument
 	//   ...
+
+	for (auto i = 0; i < argc; ++i) {
+		std::cout << std::setw(3) << i + 1 << ": " << argv[i] << "\n";
+	}
 
 	std::cout << "--------------------------\n\n";
 

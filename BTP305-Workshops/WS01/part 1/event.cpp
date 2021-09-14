@@ -16,7 +16,7 @@ namespace sdds
 	Event::Event()
 	{
 		this->m_desc[0] = '\n';
-		this->m_time = ::g_sysClock;
+		this->m_time = 0;
 	};
 
 	void Event::display()const
