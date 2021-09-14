@@ -52,7 +52,7 @@ namespace sdds
 			std::cout.fill('0');
 			std::cout<< std::setw(2) << hour << ":" << std::setw(2) << min << ":" << std::setw(2) << sec << " => ";
 			std::cout.fill(def);
-			for (auto i = 0; i < strlen(this->m_desc); ++i) {
+			for (auto i = 0u; i < strlen(this->m_desc); ++i) {
 				std::cout << this->m_desc[i];
 			}
 			std::cout << std::endl;
