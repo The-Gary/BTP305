@@ -26,9 +26,9 @@ namespace sdds
 	Event& Event::operator=(const Event& other)
 	{
 		if (this != &other) {
-			this->m_time = other.m_time;
-			delete[] this->m_desc;
+			//delete[] this->m_desc;
 			this->set(other.m_desc);
+			this->m_time = other.m_time;
 		}
 		return *this;
 	}
@@ -47,6 +47,7 @@ namespace sdds
 			hour = this->m_time / 3600;
 			min = (this->m_time / 60) % 60;
 			sec = this->m_time % 60;
+
 			auto def = std::cout.fill();
 			std::cout << std::setw(2) << counter << ". ";
 			std::cout.fill('0');
@@ -64,15 +65,20 @@ namespace sdds
 
 	void Event::set(char* name)
 	{
-		if (name) {
+		// delete everytime ptr = ...
+		delete[] this->m_desc;
+		if (name && name[0] != '\0') {
+			this->m_time = ::g_sysClock;
 			size_t nameLen = strlen(name);
 			this->m_desc = new char[nameLen + 1];
 			std::strcpy(this->m_desc, name);
-			this->m_time = ::g_sysClock;
 		}
 		else {
-			this->m_desc = nullptr;
+			/*if (this->m_desc) {
+				delete[] this->m_desc;
+			}*/
 			this->m_time = 0;
+			this->m_desc = nullptr;
 		}
 	}
 }
