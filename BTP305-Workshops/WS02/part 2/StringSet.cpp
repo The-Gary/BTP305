@@ -14,6 +14,7 @@ I have done all the coding by myself and only copied the code that my professor 
 
 namespace sdds
 {
+	// 1 arg constructor
 	StringSet::StringSet(const char* fileName)
 	{
 		std::ifstream fin;
@@ -36,11 +37,13 @@ namespace sdds
 		}
 	}
 
+	// copy constructor
 	StringSet::StringSet(const StringSet& other)
 	{
 		*this = other;
 	}
 
+	// copy-assignment operator
 	StringSet& StringSet::operator=(const StringSet& other)
 	{
 		if (this != &other) {
@@ -54,11 +57,13 @@ namespace sdds
 		return *this;
 	}
 
+	// move constructor
 	StringSet::StringSet(StringSet&& other)
 	{
 		*this = std::move(other);
 	}
 
+	// move-assignment operator
 	StringSet& StringSet::operator=(StringSet&& other)
 	{
 		if (this != &other) {
@@ -70,6 +75,7 @@ namespace sdds
 		return *this;
 	}
 
+	// destructor
 	StringSet::~StringSet()
 	{
 		delete[] this->m_strings;
