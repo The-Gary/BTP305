@@ -22,10 +22,10 @@ namespace sdds
 			char temp{};
 			while (!fin.fail()) {
 				fin.get(temp);
-				this->m_count += (temp == ' ');
+				this->m_size += (temp == ' ');
 			}
-			++this->m_count; // for the last word
-			this->m_strings = new std::string[this->m_count];
+			++this->m_size; // for the last word
+			this->m_strings = new std::string[this->m_size];
 			fin.clear();
 			fin.seekg(0);
 			auto i = 0;
@@ -44,10 +44,10 @@ namespace sdds
 	StringSet& StringSet::operator=(const StringSet& other)
 	{
 		if (this != &other) {
-			this->m_count = other.m_count;
+			this->m_size = other.m_size;
 			delete[] this->m_strings;
-			this->m_strings = new std::string[this->m_count];
-			for (size_t i = 0; i < this->m_count; ++i) {
+			this->m_strings = new std::string[this->m_size];
+			for (size_t i = 0; i < this->m_size; ++i) {
 				this->m_strings[i] = other.m_strings[i];
 			}
 		}
@@ -62,7 +62,7 @@ namespace sdds
 	StringSet& StringSet::operator=(StringSet&& other)
 	{
 		if (this != &other) {
-			this->m_count = other.m_count;
+			this->m_size = other.m_size;
 			delete[] this->m_strings;
 			this->m_strings = other.m_strings;
 			other.m_strings = nullptr;
@@ -77,11 +77,11 @@ namespace sdds
 
 	size_t StringSet::size() const
 	{
-		return this->m_count;
+		return this->m_size;
 	}
 
 	std::string StringSet::operator[](size_t index)
 	{
-		return (index <= this->m_count && index >= 0 && m_strings) ? this->m_strings[index] : std::string{};
+		return (index <= this->m_size && index >= 0 && m_strings) ? this->m_strings[index] : std::string{};
 	}
 }
