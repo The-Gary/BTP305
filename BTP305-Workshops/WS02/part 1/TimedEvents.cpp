@@ -15,10 +15,6 @@ I have done all the coding by myself and only copied the code that my professor 
 
 namespace sdds
 {
-	TimedEvents::TimedEvents()
-	{
-	};
-
 	void TimedEvents::startClock()
 	{
 		this->m_startTime = std::chrono::steady_clock::now();

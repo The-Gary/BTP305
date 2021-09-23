@@ -30,7 +30,7 @@ namespace sdds
 		};
 		Event m_eventsArr[MAX_EVENTS]{};
 	public:
-		TimedEvents();
+		TimedEvents(){};
 		void startClock();
 		void stopClock();
 		void addEvent(const char*);
