@@ -46,8 +46,8 @@ namespace sdds
 			ostr << std::setw(21) << std::left << events.m_eventsArr[i].m_eventName << ' ';
 			ostr << std::setw(13) << std::right << events.m_eventsArr[i].m_eventDuration.count() << ' ';
 			ostr << events.m_eventsArr[i].m_timeUnit << '\n';
-			ostr << "--------------------------\n";
 		}
+		ostr << "--------------------------\n";
 		return ostr;
 	}
 }

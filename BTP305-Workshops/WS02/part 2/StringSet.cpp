@@ -46,7 +46,7 @@ namespace sdds
 			this->m_count = other.m_count;
 			delete[] this->m_strings;
 			this->m_strings = new std::string[this->m_count];
-			for (auto i = 0; i < this->m_count; ++i) {
+			for (size_t i = 0; i < this->m_count; ++i) {
 				this->m_strings[i] = other.m_strings[i];
 			}
 		}
