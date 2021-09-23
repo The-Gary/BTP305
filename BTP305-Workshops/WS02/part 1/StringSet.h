@@ -17,7 +17,7 @@ namespace sdds
 	class StringSet
 	{
 		std::string* m_strings{};
-		size_t m_count{};
+		size_t m_size{};
 	public:
 		StringSet(){};
 		StringSet(const char*);
