@@ -9,6 +9,7 @@ I have done all the coding by myself and only copied the code that my professor 
 
 #include <fstream>
 #include <string>
+#include <utility>
 #include "StringSet.h"
 
 namespace sdds
