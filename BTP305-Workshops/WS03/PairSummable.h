@@ -76,7 +76,7 @@ namespace sdds
 	template<typename V, typename K>
 	void PairSummable<V, K>::display(std::ostream& os) const
 	{
-		os << std::left << std::setw(PairSummable<V, K>::s_minWidth);
+		os << std::left << std::setw(s_minWidth);
 		this->Pair<V, K>::display(os);
 		os << std::right;
 	}
