@@ -32,6 +32,8 @@
 *.app
 
 # 
+*.sln
+*.txt
 Debug/
 .vs/
 *.vcxproj
