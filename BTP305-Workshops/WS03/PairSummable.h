@@ -37,7 +37,7 @@ namespace sdds
 	
 	// calls the base class constructor passing the two parameters to it and updates the field width if necessary
 	template <typename V, typename K>
-	PairSummable<V, K>::PairSummable(const K& key, const V& value) : Pair<V, K>(key, value) // Pair<V, K>(key, value)
+	PairSummable<V, K>::PairSummable(const K& key, const V& value) : Pair<V, K>(key, value)
 	{
 		s_sumValue = {};
 		if (s_minWidth < key.size()) {
@@ -57,7 +57,6 @@ namespace sdds
 	template<typename V, typename K>
 	PairSummable<V, K>& PairSummable<V, K>::operator+=(const PairSummable<V, K>& src)
 	{
-		// 
 		*this = PairSummable(src.key(), this->value() + src.value());
 		return *this;
 	}
@@ -77,7 +76,7 @@ namespace sdds
 	template<typename V, typename K>
 	void PairSummable<V, K>::display(std::ostream& os) const
 	{
-		os << std::left << std::setw(PairSummable<V, K>::s_minWidth);
+		os << std::left << std::setw(s_minWidth);
 		this->Pair<V, K>::display(os);
 		os << std::right;
 	}
