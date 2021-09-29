@@ -24,7 +24,7 @@ namespace sdds
 		Pair(const K& key, const V& value);
 		const V& value() const;
 		const K& key() const;
-		void display(std::ostream& os) const;
+		virtual void display(std::ostream& os) const;
 	};
 
 	// copies the values referred to by the parameteres into the instance variables
