@@ -41,7 +41,7 @@ namespace sdds
 	template<size_t N, typename T>
 	void Set<N, T>::operator+=(const T& item)
 	{
-		if (this->m_numOfElements < sizeof(this->m_element)/sizeof(this->m_element[0])) {
+		if (this->m_numOfElements < N) {
 			this->m_element[this->m_numOfElements] = item;
 			++this->m_numOfElements;
 		}
