@@ -33,7 +33,6 @@
 
 # 
 *.sln
-*.txt
 Debug/
 .vs/
 *.vcxproj
