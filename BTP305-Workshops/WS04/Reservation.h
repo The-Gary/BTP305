@@ -15,8 +15,6 @@ I have done all the coding by myself and only copied the code that my professor 
 
 namespace sdds
 {
-	// TODO: justify type decision in reflection -> string is more costly but it will handle dynamic allocation
-	// and is more convenient for a program of this scope. Also, all the methods that come in with std::string (substr(), find(), erase(), stoi())
 	class Reservation 
 	{
 		std::string m_reserveId{};
