@@ -12,9 +12,8 @@ I have done all the coding by myself and only copied the code that my professor 
 namespace sdds
 {
 	// stores copies of all reservations received as param
-	Restaurant::Restaurant(const Reservation* reservations[], size_t cnt)
+	Restaurant::Restaurant(const Reservation* reservations[], size_t cnt) : m_count { cnt }
 	{
-		this->m_count = cnt;
 		this->m_res = new Reservation[this->m_count];
 		for (auto i = 0u; i < this->m_count; ++i)
 		{
