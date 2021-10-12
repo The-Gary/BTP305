@@ -3,6 +3,15 @@
 // 2021/01/19 - Chris
 // 2021/02/12 - Cornel
 
+/*
+Name:		Yousef Majidinejad
+Student ID:	101306207
+Email:		ymajidinejad@myseneca.ca
+Section:	NAA
+Date:		October 11, 2021
+I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -53,46 +62,77 @@ int main(int argc, char** argv)
 	// get the books
 	sdds::Collection<sdds::Book> library("Bestsellers");
 	if (argc == 5) {
-		// TODO: load the first 4 books from the file "argv[1]".
+		std::fstream fin(argv[1]);
+		// DONE: load the first 4 books from the file "argv[1]".
 		//       - read one line at a time, and pass it to the Book constructor
 		//       - store each book read into the collection "library" (use the += operator)
 		//       - lines that start with "#" are considered comments and should be ignored
 		//       - if the file cannot be open, print a message to standard error console and
 		//                exit from application with error code "AppErrors::CannotOpenFile"
-
-
-
-
-		/*
-		 ♪ Hey, I just met you,      ♪
-		 ♪ And this is crazy,        ♪
-		 ♪ But here's my number.     ♪    (register the observer)
-		 ♪ So, if something happens, ♪    (event)
-		 ♪ Call me, maybe?           ♪    (callback)
-		 */
+		if (!fin)
+		{
+			std::cerr << argv[1] << " cannot be openned!" << std::endl;
+			exit(AppErrors::CannotOpenFile);
+		}
+		
+		auto cnt = 0u;
+		std::string str{};
+		do
+		{
+			std::getline(fin, str);
+			if (fin && str[0] != '#')
+			{
+				library += Book(str);
+				++cnt;
+			}
+		}
+		while (cnt < 4);
+			
 		library.setObserver(bookAddedObserver);
-
-		// TODO: add the rest of the books from the file.
-
-
-
+			
+		// DONE: add the rest of the books from the file.
+		do
+		{
+			std::getline(fin, str);
+			if (fin && str[0] != '#')
+			{
+				library += Book(str);
+				++cnt;
+			}
+		}
+		while (fin);
+		fin.close();
 	}
 	else
 	{
 		std::cerr << "ERROR: Incorrect number of arguments.\n";
 		exit(AppErrors::BadArgumentCount);
 	}
-
+	
 	double usdToCadRate = 1.3;
 	double gbpToCadRate = 1.5;
 
-	// TODO: (from part #1) create a lambda expression that fixes the price of a book accoding to the rules
+	// DONE: (from part #1) create a lambda expression that fixes the price of a book accoding to the rules
 	//       - the expression should receive a single parameter of type "Book&"
 	//       - if the book was published in US, multiply the price with "usdToCadRate"
 	//            and save the new price in the book object
 	//       - if the book was published in UK between 1990 and 1999 (inclussive),
 	//            multiply the price with "gbpToCadRate" and save the new price in the book object
+	auto updatePrice = [usdToCadRate, gbpToCadRate](Book& book)
+	{
+		double& price = book.price();
+		std::string country = book.country();
+		size_t year = book.year();
 
+		if (country == "US")
+		{
+			price = price * usdToCadRate;
+		}
+		else if (country == "UK" && (year >= 1990 && year <= 1999))
+		{
+			price = price * gbpToCadRate;
+		}
+	};
 
 
 	std::cout << "-----------------------------------------\n";
@@ -101,11 +141,12 @@ int main(int argc, char** argv)
 	std::cout << library;
 	std::cout << "-----------------------------------------\n\n";
 
-	// TODO (from part #1): iterate over the library and update the price of each book
-	//         using the lambda defined above.
-
-
-
+	//// DONE (from part #1): iterate over the library and update the price of each book
+	////         using the lambda defined above.
+	for (auto i = 0u; i < library.size(); ++i)
+	{
+		updatePrice(library[i]);
+	}
 	std::cout << "-----------------------------------------\n";
 	std::cout << "The library content (updated prices)\n";
 	std::cout << "-----------------------------------------\n";
@@ -117,14 +158,30 @@ int main(int argc, char** argv)
 	// Process the file
 	Movie movies[5];
 	if (argc > 2) {
-		// TODO: load 5 movies from the file "argv[2]".
+		// DONE: load 5 movies from the file "argv[2]".
 		//       - read one line at a time, and pass it to the Movie constructor
 		//       - store each movie read into the array "movies"
 		//       - lines that start with "#" are considered comments and should be ignored
+		std::fstream fin(argv[2]);
+		if (!fin)
+		{
+			std::cerr << argv[2] << " cannot be openned!" << std::endl;
+			exit(AppErrors::CannotOpenFile);
+		}
 
-
-
-
+		auto cnt = 0u;
+		std::string str{};
+		do
+		{
+			std::getline(fin, str);
+			if (fin && str[0] != '#')
+			{
+				movies[cnt] = str;
+				++cnt;
+			}
+		}
+		while (cnt < 5);
+		fin.close();
 	}
 
 	std::cout << "-----------------------------------------\n";
@@ -150,13 +207,20 @@ int main(int argc, char** argv)
 	std::cout << "-----------------------------------------\n";
 
 
-		// TODO: The following loop can generate generate an exception
-		//         write code to handle the exception
-		//       If an exception occurs print a message in the following format
-		//** EXCEPTION: ERROR_MESSAGE<endl>
-		//         where ERROR_MESSAGE is extracted from the exception object.
+	// DONE: The following loop can generate generate an exception
+	//         write code to handle the exception
+	//       If an exception occurs print a message in the following format
+	//** EXCEPTION: ERROR_MESSAGE<endl>
+	//         where ERROR_MESSAGE is extracted from the exception object.
+	try
+	{
 		for (auto i = 0u; i < 10; ++i)
 			std::cout << theCollection[i];
+	}
+	catch (std::out_of_range& err)
+	{
+		std::cout << "** EXCEPTION: " << err.what() << std::endl;
+	}
 
 	std::cout << "-----------------------------------------\n\n";
 
@@ -166,11 +230,13 @@ int main(int argc, char** argv)
 	std::cout << "-----------------------------------------\n";
 	for (auto i = 3; i < argc; ++i)
 	{
-			// TODO: The following statement can generate generate an exception
-			//         write code to handle the exception
-			//       If an exception occurs print a message in the following format
-			//** EXCEPTION: ERROR_MESSAGE<endl>
-			//         where ERROR_MESSAGE is extracted from the exception object.
+		// Done: The following statement can generate generate an exception
+		//         write code to handle the exception
+		//       If an exception occurs print a message in the following format
+		//** EXCEPTION: ERROR_MESSAGE<endl>
+		//         where ERROR_MESSAGE is extracted from the exception object.
+		try
+		{
 			SpellChecker sp(argv[i]);
 			for (auto j = 0u; j < library.size(); ++j)
 				library[j].fixSpelling(sp);
@@ -179,6 +245,12 @@ int main(int argc, char** argv)
 			for (auto j = 0u; j < theCollection.size(); ++j)
 				theCollection[j].fixSpelling(sp);
 			sp.showStatistics(std::cout);
+		}
+		catch (const char* err)
+		{
+			std::cout << "** EXCEPTION: " << err << std::endl;
+		}
+		
 	}
 	if (argc < 3) {
 		std::cout << "** Spellchecker is empty\n";

@@ -1,4 +1,3 @@
-#include "Book.h"
 /*
 Name:		Yousef Majidinejad
 Student ID:	101306207
@@ -11,6 +10,7 @@ I have done all the coding by myself and only copied the code that my professor 
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include "Book.h"
 
 namespace sdds
 {
@@ -20,13 +20,13 @@ namespace sdds
 	// AUTHOR,TITLE,COUNTRY,PRICE,YEAR,DESCRIPTION
 	Book::Book(const std::string& strBook)
 	{
-		std::string temp = strBook;
-		this->m_author = extract(temp, ",");
-		this->m_title = extract(temp, ",");
-		this->m_country = extract(temp, ",");
-		this->m_price = std::stod(extract(temp, ","));
-		this->m_year = std::stoi(extract(temp, ","));
-		this->m_desc = extract(temp, "\n");
+		std::string temp(strBook);
+		this->m_author = this->extract(temp, ',');
+		this->m_title = this->extract(temp, ',');
+		this->m_country = this->extract(temp, ',');
+		this->m_price = std::stod(this->extract(temp, ','));
+		this->m_year = std::stoi(this->extract(temp, ','));
+		this->m_desc = this->extract(temp);
 
 	}
 
@@ -50,32 +50,27 @@ namespace sdds
 		return this->m_price;
 	}
 
-	std::string Book::extract(std::string& str, const char* delim)
+	std::string Book::extract(std::string& str, const char delim)
 	{
 		auto idx = str.find(delim);
-		std::string ret = str.substr(0, idx);
-		this->trim(ret);
+		std::string ret(str.substr(0, idx));
 		str.erase(0, idx + 1);
-		return ret;
+		return this->trim(ret);
 	}
 
-	void Book::trim(std::string& str)
+	inline std::string Book::extract(std::string& str)
+	{
+		return this->trim(str.substr(0));
+	}
+
+	std::string Book::trim(const std::string& str) const
 	{
 		auto begin = str.find_first_not_of(' ');
 		auto end = str.find_last_not_of(' ');
 		auto range = end - begin + 1;
-		str = str.substr(begin, range);
+		return str.substr(begin, range);
 	}
 
-	/*
-	the author printed on a field of size 20; RIGHT
-	the title printed on a field of size 22; RIGHT
-	the country printed on a field of size 5; RIGHT
-	the year printed on a field of size 4; RIGHT
-	the price printed on a field of size 6, with 2 decimal digits; RIGHT
-	the description printed with LEFT alignment
-	see alignment in the sample output.
-	*/
 	std::ostream& operator<<(std::ostream& os, const Book& src)
 	{
 		os << std::setw(20) << std::right << src.m_author << " | "
