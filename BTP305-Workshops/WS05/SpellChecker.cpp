@@ -46,7 +46,7 @@ namespace sdds
 	void SpellChecker::operator()(std::string & text)
 	{
 		size_t idx = 0;
-		auto length = 0u;
+		size_t length = 0u;
 		for (auto i = 0u; i < MAX_SIZE; ++i)
 		{
 			do
