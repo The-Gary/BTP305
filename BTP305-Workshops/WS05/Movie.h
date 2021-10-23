@@ -20,13 +20,13 @@ namespace sdds
 		std::string m_title{};
 		std::string m_desc{};
 		size_t m_year{};
+		std::string extract(std::string& str, const char delim);
+		std::string extract(std::string& str);
+		std::string trim(const std::string& str) const;
 	public:
 		Movie(){};
 		Movie(const std::string& strMovie);
 		const std::string& title() const;
-		std::string extract(std::string& str, const char delim);
-		std::string extract(std::string& str);
-		std::string trim(const std::string& str) const;
 		friend std::ostream& operator<<(std::ostream& os, const Movie& src);
 		template<typename T>
 		void fixSpelling(T& spellChecker);

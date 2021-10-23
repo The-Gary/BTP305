@@ -23,6 +23,9 @@ namespace sdds
 		std::string m_desc{};
 		size_t m_year{};
 		double m_price{};
+		std::string extract(std::string& str, const char delim);
+		std::string extract(std::string& str);
+		std::string trim(const std::string& str) const;
 	public:
 		Book(){};
 		Book(const std::string& strBook);
@@ -30,9 +33,6 @@ namespace sdds
 		const std::string& country() const;
 		const size_t& year() const;
 		double& price();
-		std::string extract(std::string& str, const char delim);
-		std::string extract(std::string& str);
-		std::string trim(const std::string& str) const;
 		friend std::ostream& operator<<(std::ostream& os, const Book& src);
 		template<typename T>
 		void fixSpelling(T& spellChecker);
