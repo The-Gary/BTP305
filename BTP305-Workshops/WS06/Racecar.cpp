@@ -15,7 +15,6 @@ namespace sdds
 {
 	Racecar::Racecar(std::istream& in) : Car::Car(in)
 	{
-		in.ignore();
 		std::string field{};
 		std::getline(in, field, '\n');
 		
