@@ -9,6 +9,7 @@ I have done all the coding by myself and only copied the code that my professor 
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "Utilities.h"
 #include "Vehicle.h"
 #include "Car.h"
@@ -19,26 +20,24 @@ namespace sdds
 	Vehicle* createInstance(std::istream& in)
 	{
 		Vehicle* ret = nullptr;
-		std::string field{};
-		std::getline(in, field, ',');
+		std::string sRecord{};
+		std::stringstream record;
 
-		size_t idx = field.find_first_not_of(' ');
+		std::getline(in, sRecord, '\n');
+		record << sRecord;
+
+		size_t idx = sRecord.find_first_not_of(' ');
 		if (idx != std::string::npos)
 		{
-			char tag = field.at(idx);
+			char tag = sRecord.at(idx);
 			if (tag == 'c' || tag == 'C')
-			{
-				ret = new Car(in);
-				//in.ignore();
-			}
+				ret = new Car(record);
+
 			else if (tag == 'r' || tag == 'R')
-			{
-				ret = new Racecar(in);
-				//in.ignore();
-			}
+				ret = new Racecar(record);
+
 			else
 			{
-				in.ignore(256, '\n');
 				std::string err("Unrecognized record type: [");
 				err += tag;
 				err += "]";

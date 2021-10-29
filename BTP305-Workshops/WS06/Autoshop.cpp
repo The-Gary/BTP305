@@ -34,8 +34,6 @@ namespace sdds
 	Autoshop::~Autoshop()
 	{
 		for (const auto& vehicle : this->m_vehicles)
-		{
 			delete vehicle;
-		}
 	}
 }

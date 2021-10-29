@@ -19,34 +19,31 @@ namespace sdds
 		std::string field{};
 		size_t idx{};
 
+		istr.ignore(256, ',');
 		getline(istr, this->m_maker, ',');
 		getline(istr, field, ',');
+
 		idx = field.find_first_not_of(' ');
 		if (idx == std::string::npos)
-		{
 			this->m_condition = 'n';
-		}
 		else
 		{
 			char con = field.at(idx);
 			if (con == 'n' || con == 'u' || con == 'b')
 				this->m_condition = con;
 			else
-			{
-				istr.ignore(256, '\n');
 				throw "Invalid record!";
-			}
 		}
+
 		getline(istr, field, '\n');
 		idx = field.find(',');
-		if (idx != std::string::npos) // extracted too much from the stream, put back
+		if (idx != std::string::npos) // if ',' is found in the extracted field, put what is after the ',' back in the stream
 		{
 			std::string putback = field.substr(idx);
-			istr.putback('\n');
-			for (auto it = putback.end() - 1; it != putback.begin(); --it)
-			{
+			istr.putback('\n'); // getline removes the delimeter; must put it back first
+			for (auto it = putback.end() - 1; it != putback.begin(); --it) // put back in the reverse order of extraction
 				istr.putback(*it);
-			}
+
 			field = field.substr(0, idx);
 		}
 		try
@@ -55,7 +52,6 @@ namespace sdds
 		}
 		catch(const std::invalid_argument&)
 		{
-			istr.ignore(256, '\n');
 			throw "Invalid record!";
 		}
 		
@@ -68,17 +64,11 @@ namespace sdds
 	{
 		std::string ret{};
 		if (this->m_condition == 'n')
-		{
 			ret = "new";
-		}
 		else if (this->m_condition == 'u')
-		{
 			ret = "used";
-		}
 		else
-		{
 			ret = "broken";
-		}
 		return ret;
 	}
 

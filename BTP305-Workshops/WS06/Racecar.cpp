@@ -18,15 +18,6 @@ namespace sdds
 		in.ignore();
 		std::string field{};
 		std::getline(in, field, '\n');
-		if (!in.good())
-		{
-			in.clear();
-			in.seekg(0, in.end);
-			int length = in.tellg();
-			length -= 3;
-			in.seekg(length, in.beg);
-			std::getline(in, field, '\0');
-		}
 		
 		try
 		{
@@ -34,7 +25,7 @@ namespace sdds
 		}
 		catch (const std::invalid_argument&)
 		{
-			this->m_booster = 0.0;
+			// if stod() fails, m_booster remains 0.0; nothing needs to happen.
 		}
 	}
 	void Racecar::display(std::ostream & out) const
