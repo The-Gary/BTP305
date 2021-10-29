@@ -41,7 +41,7 @@ namespace sdds
 		{
 			std::string putback = field.substr(idx + 1);
 			istr.putback('\n'); // getline removes the delimeter; must put it back first
-			for (auto it = putback.end() - 1; it != putback.begin(); --it) // put back in the reverse order of extraction
+			for (auto it = putback.cend() - 1; it != putback.cbegin(); --it) // put back in the reverse order of extraction
 				istr.putback(*it);
 
 			field = field.substr(0, idx);
