@@ -1,3 +1,12 @@
+/*
+Name:		Yousef Majidinejad
+Student ID:	101306207
+Email:		ymajidinejad@myseneca.ca
+Section:	NAA
+Date:		October 27, 2021
+I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -18,13 +27,6 @@ void loadData(const char* filename, sdds::Autoshop& as)
 	}
 	while (file)
 	{
-		// TODO: This code can throw errors to signal that something went wrong while
-		//         extracting data. Write code to catch and handle the following errors:
-		//       - the type of vehicle is not recognized: the first non-empty character
-		//           on the line is not 'c', 'C', 'r', or 'R'. In this case print
-		//           "Unrecognized record type: [TAG]<endl>"
-		//       - one of the fields in the record contains invalid data. In this case print
-		//           "Invalid record!<endl>"
 		try
 		{
 			sdds::Vehicle* aVehicle = sdds::createInstance(file);
@@ -35,9 +37,9 @@ void loadData(const char* filename, sdds::Autoshop& as)
 		{
 			std::cout << invalid << std::endl;
 		}
-		catch (std::string unrecoginzed)
+		catch (std::string unrecognized)
 		{
-			std::cout << unrecoginzed << std::endl;
+			std::cout << unrecognized << std::endl;
 		}
 	}
 }
@@ -61,8 +63,6 @@ int main(int argc, char** argv)
 	std::cout << std::endl;
 	std::list<const sdds::Vehicle*> vehicles;
 	{
-		// TODO: Create a lambda expression that receives as parameter `const sdds::Vehicle*`
-		//         and returns true if the vehicle has a top speed >300km/h
 		auto fastVehicles = [](const sdds::Vehicle* vehicle) -> bool
 		{
 			return (vehicle->topSpeed() > 300);
@@ -82,8 +82,6 @@ int main(int argc, char** argv)
 	vehicles.clear();
 	std::cout << std::endl;
 	{
-		// TODO: Create a lambda expression that receives as parameter `const sdds::Vehicle*`
-		//         and returns true if the vehicle is broken and needs repairs.
 		auto brokenVehicles = [](const sdds::Vehicle* vehicle)
 		{
 			return (vehicle->condition() == "broken");

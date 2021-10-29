@@ -39,7 +39,7 @@ namespace sdds
 		idx = field.find(',');
 		if (idx != std::string::npos) // if ',' is found in the extracted field, put what is after the ',' back in the stream
 		{
-			std::string putback = field.substr(idx + 1);
+			std::string putback(field.substr(++idx));
 			istr.putback('\n'); // getline removes the delimeter; must put it back first
 			for (auto it = putback.cend() - 1; it != putback.cbegin(); --it) // put back in the reverse order of extraction
 				istr.putback(*it);

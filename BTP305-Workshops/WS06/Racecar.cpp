@@ -24,7 +24,7 @@ namespace sdds
 		}
 		catch (const std::invalid_argument&)
 		{
-			// if stod() fails, m_booster remains 0.0; nothing needs to happen.
+			// if stod() fails, m_booster remains 0.0; nothing needs to happen here.
 		}
 	}
 	void Racecar::display(std::ostream & out) const
@@ -34,8 +34,6 @@ namespace sdds
 	}
 	double Racecar::topSpeed() const
 	{
-		double ret = Car::topSpeed();
-		ret *= 1 + this->m_booster;
-		return ret;
+		return (1 + this->m_booster) * Car::topSpeed();
 	}
 }
