@@ -12,6 +12,7 @@ I have done all the coding by myself and only copied the code that my professor 
 #include "Utilities.h"
 #include "Vehicle.h"
 #include "Car.h"
+#include "Racecar.h"
 
 namespace sdds
 {
@@ -24,11 +25,25 @@ namespace sdds
 		size_t idx = field.find_first_not_of(' ');
 		if (idx != std::string::npos)
 		{
-			if (field.at(idx) == 'c' || field.at(idx) == 'C')
+			char tag = field.at(idx);
+			if (tag == 'c' || tag == 'C')
 			{
 				ret = new Car(in);
+				//in.ignore();
 			}
-			in.ignore();
+			else if (tag == 'r' || tag == 'R')
+			{
+				ret = new Racecar(in);
+				//in.ignore();
+			}
+			else
+			{
+				in.ignore(256, '\n');
+				std::string err("Unrecognized record type: [");
+				err += tag;
+				err += "]";
+				throw err;
+			}
 		}
 		return ret;
 	}

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <list>
 #include "Autoshop.h"
 #include "Autoshop.h"
 #include "Utilities.h"
@@ -24,9 +25,20 @@ void loadData(const char* filename, sdds::Autoshop& as)
 		//           "Unrecognized record type: [TAG]<endl>"
 		//       - one of the fields in the record contains invalid data. In this case print
 		//           "Invalid record!<endl>"
-		sdds::Vehicle* aVehicle = sdds::createInstance(file);
-		if (aVehicle)
-			as += aVehicle;
+		try
+		{
+			sdds::Vehicle* aVehicle = sdds::createInstance(file);
+			if (aVehicle)
+				as += aVehicle;
+		}
+		catch (const char* invalid)
+		{
+			std::cout << invalid << std::endl;
+		}
+		catch (std::string unrecoginzed)
+		{
+			std::cout << unrecoginzed << std::endl;
+		}
 	}
 }
 
@@ -51,7 +63,10 @@ int main(int argc, char** argv)
 	{
 		// TODO: Create a lambda expression that receives as parameter `const sdds::Vehicle*`
 		//         and returns true if the vehicle has a top speed >300km/h
-		auto fastVehicles = ...
+		auto fastVehicles = [](const sdds::Vehicle* vehicle) -> bool
+		{
+			return (vehicle->topSpeed() > 300);
+		};
 		as.select(fastVehicles, vehicles);
 		std::cout << "--------------------------------\n";
 		std::cout << "|       Fast Vehicles          |\n";
@@ -69,7 +84,10 @@ int main(int argc, char** argv)
 	{
 		// TODO: Create a lambda expression that receives as parameter `const sdds::Vehicle*`
 		//         and returns true if the vehicle is broken and needs repairs.
-		auto brokenVehicles = ...
+		auto brokenVehicles = [](const sdds::Vehicle* vehicle)
+		{
+			return (vehicle->condition() == "broken");
+		};
 		as.select(brokenVehicles, vehicles);
 		std::cout << "--------------------------------\n";
 		std::cout << "| Vehicles in need of repair   |\n";

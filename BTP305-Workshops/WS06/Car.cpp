@@ -22,8 +22,43 @@ namespace sdds
 		getline(istr, this->m_maker, ',');
 		getline(istr, field, ',');
 		idx = field.find_first_not_of(' ');
-		this->m_condition = field.at(idx);
-		istr >> this->m_topSpeed;
+		if (idx == std::string::npos)
+		{
+			this->m_condition = 'n';
+		}
+		else
+		{
+			char con = field.at(idx);
+			if (con == 'n' || con == 'u' || con == 'b')
+				this->m_condition = con;
+			else
+			{
+				istr.ignore(256, '\n');
+				throw "Invalid record!";
+			}
+		}
+		getline(istr, field, '\n');
+		idx = field.find(',');
+		if (idx != std::string::npos) // extracted too much from the stream, put back
+		{
+			std::string putback = field.substr(idx);
+			istr.putback('\n');
+			for (auto it = putback.end() - 1; it != putback.begin(); --it)
+			{
+				istr.putback(*it);
+			}
+			field = field.substr(0, idx);
+		}
+		try
+		{
+			this->m_topSpeed = std::stod(field);
+		}
+		catch(const std::invalid_argument&)
+		{
+			istr.ignore(256, '\n');
+			throw "Invalid record!";
+		}
+		
 		size_t begin = this->m_maker.find_first_not_of(' ');
 		size_t end = this->m_maker.find_last_not_of(' ');
 		this->m_maker = this->m_maker.substr(begin, end - begin + 1);
@@ -55,6 +90,6 @@ namespace sdds
 	{
 		out << "| " << std::setw(10) << std::right << this->m_maker << " | "
 			<< std::setw(6) << std::left << this->condition() << " | "
-			<< std::setw(6) << std::setprecision(2) << std::fixed << this->m_topSpeed << " |" << std::endl;
+			<< std::setw(6) << std::setprecision(2) << std::fixed << this->topSpeed() << " |";
 	}
 }

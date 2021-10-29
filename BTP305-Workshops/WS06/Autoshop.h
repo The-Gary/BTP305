@@ -12,6 +12,7 @@ I have done all the coding by myself and only copied the code that my professor 
 
 #include <iostream>
 #include <vector>
+#include <list>
 #include "Vehicle.h"
 
 namespace sdds
@@ -22,6 +23,18 @@ namespace sdds
 	public:
 		Autoshop& operator +=(Vehicle* theVehicle);
 		void display(std::ostream& out) const;
+		~Autoshop();
+		template<typename T>
+		void select(T test, std::list<const Vehicle*>& vehicles)
+		{
+			for (const auto& item : this->m_vehicles)
+			{
+				if (test(item))
+				{
+					vehicles.push_back(item);
+				}
+			}
+		}
 	};
 }
 

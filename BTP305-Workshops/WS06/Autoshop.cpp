@@ -25,7 +25,17 @@ namespace sdds
 		/*for (auto it = this->m_vehicles.cbegin(); it != this->m_vehicles.cend(); ++it)
 			(*it)->display(out);*/ // -> alternative
 		for (const auto& vehicle : this->m_vehicles)
+		{
 			vehicle->display(out);
+			out << '\n';
+		}
 		out << "--------------------------------" << std::endl;
+	}
+	Autoshop::~Autoshop()
+	{
+		for (const auto& vehicle : this->m_vehicles)
+		{
+			delete vehicle;
+		}
 	}
 }
