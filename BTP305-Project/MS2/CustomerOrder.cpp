@@ -37,10 +37,9 @@ namespace sdds
 
 		// allocate memory and populate items
 		this->m_pLstItem = new Item*[++m_stCntItem];
-		std::string itemName{};
 		for (auto i = 0u; i < this->m_stCntItem; ++i)
 		{
-			itemName = util.extractToken(src, next_pos, more);
+			const std::string& itemName = util.extractToken(src, next_pos, more);
 			this->m_pLstItem[i] = new Item(itemName);
 		}
 
