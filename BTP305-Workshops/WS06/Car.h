@@ -23,9 +23,9 @@ namespace sdds
 		double m_topSpeed{};
 	public:
 		Car(std::istream& istr);
-		std::string condition() const;
-		double topSpeed() const;
-		void display(std::ostream& out) const;
+		std::string condition() const override;
+		double topSpeed() const override;
+		void display(std::ostream& out) const override;
 	};
 }
 

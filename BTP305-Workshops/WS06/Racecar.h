@@ -20,8 +20,8 @@ namespace sdds
 		double m_booster = 0.0;
 	public:
 		Racecar(std::istream& in);
-		void display(std::ostream& out) const;
-		double topSpeed() const;
+		void display(std::ostream& out) const override;
+		double topSpeed() const override;
 	};
 }
 
