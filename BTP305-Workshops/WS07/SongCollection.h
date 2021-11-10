@@ -29,7 +29,7 @@ namespace sdds
 	class SongCollection
 	{
 		std::vector<Song> m_vSongs{};
-		std::string extract(const std::string& song, size_t being, size_t range);
+		std::string extract(const std::string& song, size_t begin, size_t range);
 		void trim(std::string& str);
 	public:
 		SongCollection(const char* fileName);
