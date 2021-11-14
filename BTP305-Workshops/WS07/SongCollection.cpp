@@ -68,8 +68,13 @@ namespace sdds
 
 	void SongCollection::display(std::ostream& os)
 	{
-		size_t sum{};
-		std::for_each(this->m_songs.cbegin(), this->m_songs.cend(), [&](const Song& song) { os << song << std::endl; sum += song.m_length; });
+		std::for_each(this->m_songs.cbegin(), this->m_songs.cend(), [&os](const Song& song) { os << song << std::endl; });
+
+		auto add = [](size_t sum, const Song& song) -> size_t
+		{
+			return sum += song.m_length;
+		};
+		size_t sum = std::accumulate(m_songs.cbegin(), m_songs.cend(), 0, add);
 		
 		auto hr = sum / 3600;
 		auto min = (sum - hr * 3600) / 60;
@@ -84,7 +89,7 @@ namespace sdds
 
 	void SongCollection::sort(const char* by)
 	{
-		auto compare = [&](const Song& a, const Song& b)
+		auto compare = [&by](const Song& a, const Song& b)
 		{
 			if (strcmp(by, "title") == 0)
 				return a.m_title < b.m_title;
