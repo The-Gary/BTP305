@@ -119,8 +119,8 @@ namespace sdds
 		{
 			return song.m_artist == artistName;
 		};
-		auto result = std::find_if(m_songs.cbegin(), m_songs.cend(), found);
-		return result != m_songs.cend();
+		bool result = std::any_of(m_songs.cbegin(), m_songs.cend(), found);
+		return result;
 	}
 
 	std::list<Song> SongCollection::getSongsForArtist(const char* artistName) const
