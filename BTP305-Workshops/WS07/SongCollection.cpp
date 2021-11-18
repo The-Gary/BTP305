@@ -7,7 +7,6 @@ Date:		November 9, 2021
 I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments
 */
 
-#include "SongCollection.h"
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -17,6 +16,7 @@ I have done all the coding by myself and only copied the code that my professor 
 #include <list>
 #include <iterator>
 #include <cstring>
+#include "SongCollection.h"
 
 namespace sdds
 {
@@ -89,7 +89,7 @@ namespace sdds
 
 	void SongCollection::sort(const char* by)
 	{
-		auto compare = [&by](const Song& a, const Song& b)
+		auto compare = [by](const Song& a, const Song& b)
 		{
 			if (strcmp(by, "title") == 0)
 				return a.m_title < b.m_title;
