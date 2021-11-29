@@ -72,35 +72,16 @@ namespace w9 {
 
 	void SecureData::code(char key)
 	{
-		/*// TODO (at-home): rewrite this function to use at least two threads
+		// DONE (at-home): rewrite this function to use at least two threads
 		//         to encrypt/decrypt the text.
-		auto f = std::bind(converter, text, key, nbytes, Cryptor());
+		auto f = std::bind(converter, std::placeholders::_1, key, std::placeholders::_2, Cryptor());
 
-		auto size = nbytes / 4;
-		std::thread t1(f, text, key, size);
-		std::thread t2(f, text + size, key, size);
-		std::thread t3(f, text + (size*2), key, size);
-		auto s = nbytes - (size * 3);
-		std::thread t4(f, text + (size*3), key, s - 1);
-
-		t1.join();
-		t2.join();
-		t3.join();
-		t4.join();
-
-		encoded = !encoded;*/
-		auto f = std::bind(converter, text, key, nbytes, Cryptor());
-
-		auto size = nbytes / 4;
-		int s{};
-
-		thread t1(f, text, key, size, Cryptor());
-		s += size;
-		thread t2(f, text + s, key, size, Cryptor());
-		s += size;
-		thread t3(f, text + s, key, size, Cryptor());
-		size = nbytes - s;
-		thread t4(f, text + s, key, size, Cryptor());
+		auto chunk = nbytes / 4;
+		std::thread t1(f, text, chunk);
+		std::thread t2(f, text + chunk, chunk);
+		std::thread t3(f, text + (chunk * 2), chunk);
+		auto remaining = nbytes - (chunk * 3) - 1;
+		std::thread t4(f, text + (chunk * 3), remaining);
 
 		t1.join();
 		t2.join();
