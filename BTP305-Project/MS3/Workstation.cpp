@@ -25,35 +25,22 @@ namespace sdds
 	void Workstation::fill(std::ostream& os)
 	{
 		if (!m_dqOrders.empty() && !m_dqOrders.front().isFilled())
-		{
 			m_dqOrders.front().fillItem(*this, os);
-		}
 	}
 
-	/*	attempts to move the order at the front of the queue to the next station in the assembly line:
-	 *		if there is no next station in the assembly line, then the order is moved into completed queue
-	 *	if the order cannot be filled (not enough inventory), move the order to the next station.
-	 *		if there is no next station in the assembly line, then the order is moved into incomplete queue
-	 *	if an order has been moved, return true; false otherwise	*/
+	//	attempts to move the order at the front of the queue to the next station in the assembly line
 	bool Workstation::attemptToMoveOrder()
 	{
 		if (!m_dqOrders.empty())
 		{
 			CustomerOrder& currentOrder = m_dqOrders.front();
 			
-
 			bool allItemsFilled = currentOrder.isItemFilled(this->getItemName());
-			/*if (allItemsFilled && !m_pNextStation) // all items are not filled and there is no next station
-			{
-				// then move order into the incomplete queue
-				incomplete.push_back((std::move(currentOrder)));
-				return true;
-			}*/
 
-			// if the item handled by the station is filled or the station is out of inventory
-			// move order into the next station
+			// all items handled by this station are processed or inventory is empty
 			if (allItemsFilled || Station::getQuantity() == 0)
 			{
+				// not at the end of the line yet, move to the next station
 				if (m_pNextStation)
 				{
 					*m_pNextStation += std::move(currentOrder);
@@ -61,8 +48,9 @@ namespace sdds
 					return true;
 				}
 
+				// at the end of the line, if all items in the order are filled
 				bool isCompleted = currentOrder.isFilled();
-				if (isCompleted) // order is filled
+				if (isCompleted)
 				{
 					// move order into completed queue
 					completed.push_back(std::move(currentOrder));
@@ -70,11 +58,12 @@ namespace sdds
 					return true;
 				}
 
+				// end of the line, all items are not filled; then move into incomplete
 				incomplete.push_back((std::move(currentOrder)));
 				return true;
 			}
-
 		}
+		// move attempt failed
 		return false;
 	}
 

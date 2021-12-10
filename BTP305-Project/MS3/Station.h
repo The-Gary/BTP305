@@ -11,6 +11,7 @@ and the content was created entirely by me.
 #define SDDS_STATION_H
 
 #include <string>
+#include <iostream>
 
 namespace sdds
 {

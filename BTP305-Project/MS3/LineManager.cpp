@@ -32,7 +32,7 @@ namespace sdds
 			throw "Could not open file";
 
 		std::string record{};
-		std::string currentStation{}, nextStation{};
+		std::string sCurrentStation{}, sNextStation{};
 		size_t next_pos{};
 		bool more{};
 
@@ -46,14 +46,14 @@ namespace sdds
 				next_pos = 0;
 				more = true;
 
-				currentStation = util.extractToken(record, next_pos, more);
-				auto it = std::find_if(stations.cbegin(), stations.cend(), [currentStation](const Workstation* ws) { return ws->getItemName() == currentStation; });
+				sCurrentStation = util.extractToken(record, next_pos, more);
+				auto it = std::find_if(stations.cbegin(), stations.cend(), [sCurrentStation](const Workstation* ws) { return ws->getItemName() == sCurrentStation; });
 				m_vActiveLine.push_back(*it);
 
 				if (more)
 				{
-					nextStation = util.extractToken(record, next_pos, more);
-					it = std::find_if(stations.cbegin(), stations.cend(), [nextStation](const Workstation* ws) { return ws->getItemName() == nextStation; });
+					sNextStation = util.extractToken(record, next_pos, more);
+					it = std::find_if(stations.cbegin(), stations.cend(), [sNextStation](const Workstation* ws) { return ws->getItemName() == sNextStation; });
 					m_vActiveLine.back()->setNextStation(*it);
 				}
 			}
@@ -98,22 +98,22 @@ namespace sdds
 		}
 
 		// link the rest of the stations
-		// new vector, loop through old, find next station, push to new
-		// in the end, clear old, then old = new
 		for (auto& workstation : m_vActiveLine)
 		{
-			bool endOfLine = !workstation->getNextStation();
-			const std::string& nextStationName = !endOfLine ? workstation->getNextStation()->getItemName() : "";
+			const auto& pNextStation = workstation->getNextStation();
+			const std::string& nextStationName = pNextStation ? pNextStation->getItemName() : "";
 
 			auto found = std::find_if(m_vActiveLine.begin(), m_vActiveLine.end(), [nextStationName](const Workstation* ws)
 									  {
 										  return nextStationName == ws->getItemName();
 									  });
-			if (workstation->getNextStation())
+
+			if (pNextStation)
 			{
-				auto nextStation = &workstation + 1;
-				std::swap(*nextStation, *found);
+				auto adjacantStation = &workstation + 1;
+				std::swap(*adjacantStation, *found);
 			}
+
 			if (m_vActiveLine.back()->getNextStation() == nullptr) // <-- not entirely sure if this is a good idea. could potentially produce a bug
 				break; 
 		}
@@ -131,17 +131,14 @@ namespace sdds
 			*m_firstStation += std::move(pending.front());
 			pending.pop_front();
 		}
+
 		for (const auto& ws : m_vActiveLine)
-		{
 			ws->fill(os);
-		}
+
 		for (const auto& ws : m_vActiveLine)
-		{
 			ws->attemptToMoveOrder();
-		}
-		if ((incomplete.size() + completed.size()) == m_stOrderCount)
-			return true;
-		return false;
+
+		return (incomplete.size() + completed.size()) == m_stOrderCount;
 	}
 
 	void LineManager::display(std::ostream& os) const

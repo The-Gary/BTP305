@@ -1,0 +1,6 @@
+#define TIME(start, end) (std::chrono::duration_cast<std::chrono::nanoseconds>((end) - (start)).count())
+auto start = std::chrono::high_resolution_clock::now();
+auto end = std::chrono::high_resolution_clock::now();
+cout << "Time: [" << TIME(start, end) << "]" << endl;
+
+Original version: [136,616,400] nanoseconds

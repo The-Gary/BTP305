@@ -7,6 +7,7 @@ I confirm that I am the only author of this file
 and the content was created entirely by me.
 */
 
+#include <string>
 #include "Utilities.h"
 
 namespace sdds

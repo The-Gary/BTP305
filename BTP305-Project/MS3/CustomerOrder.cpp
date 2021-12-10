@@ -31,9 +31,7 @@ namespace sdds
 		// count how many items are to be retrieved
 		char c = util.getDelimiter();
 		for (auto i = next_pos; i < src.length() ; ++i)
-		{
 			this->m_stCntItem += (src[i] == c);
-		}
 
 		// allocate memory and populate items
 		this->m_pLstItem = new Item*[++m_stCntItem];
@@ -52,7 +50,7 @@ namespace sdds
 	// copy ctor
 	CustomerOrder::CustomerOrder(const CustomerOrder& src)
 	{
-		throw 0;
+		throw "copying is not allowed";
 	}
 
 	// move ctor
@@ -111,28 +109,24 @@ namespace sdds
 		return ret;
 	}
 
-	// if the order contains an item handled by the station, it fills the order
+	// if the order contains an item handled by the station, it fills all items in the order
 	void CustomerOrder::fillItem(Station& station, std::ostream& os)
 	{
 		const std::string& itemName = station.getItemName();
-
 		auto quantity = station.getQuantity();
 
-		// determine if the current order contains an item handled by the station
 		for (size_t i = 0; i < m_stCntItem; i++)
 		{
+			// determine if the current order contains an item handled by the station
 			if (m_pLstItem[i]->m_sItemName == itemName)
 			{
-				if (quantity > 0) // if found and the station's inventory contains at least 1 item
+				if (quantity > 0)
 				{
-					// update station quantity 
 					station.updateQuantity();
 
-					// set serial number and isFilled
 					m_pLstItem[i]->m_stSerialNumer = station.getNextSerialNumber();
 					m_pLstItem[i]->m_isFilled = true;
 
-					// print result
 					os << "    Filled " << m_sName << ", " << m_sProduct << " [" << itemName << "]" << std::endl;
 				}
 				else if (quantity == 0 && !m_pLstItem[i]->m_isFilled)
